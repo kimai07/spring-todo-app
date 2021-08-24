@@ -28,12 +28,8 @@ public class TodoService {
 
         todoMapper.create(todoEntity);
 
-        return new Todo()
-          .id(todoEntity.getId())
-          .title(todoEntity.getTitle())
-          .description(todoEntity.getDescription())
-          .deadline(todoEntity.getDeadline())
-          .done(todoEntity.isDone());
+        return new Todo().id(todoEntity.getId()).title(todoEntity.getTitle()).description(todoEntity.getDescription())
+                .deadline(todoEntity.getDeadline()).done(todoEntity.isDone());
     }
 
     @Transactional(readOnly = true)
