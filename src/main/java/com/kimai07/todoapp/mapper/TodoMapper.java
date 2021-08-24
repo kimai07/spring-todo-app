@@ -1,6 +1,7 @@
 package com.kimai07.todoapp.mapper;
 
-import com.kimai07.todoapp.domain.Todo;
+import com.kimai07.todoapp.entity.TodoEntity;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -13,11 +14,11 @@ public interface TodoMapper {
 
     @Insert("INSERT INTO todos (title, description, deadline, done) VALUES (#{title}, #{description}, #{deadline}, #{done})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void create(Todo todo);
+    void create(TodoEntity todo);
 
     @Select("SELECT id, title, description, deadline, done FROM todos WHERE id = #{id}")
-    Todo findById(Long id);
+    TodoEntity findById(Long id);
 
     @Select("SELECT id, title, description, deadline, done FROM todos LIMIT 100")
-    List<Todo> findAll();
+    List<TodoEntity> findAll();
 }

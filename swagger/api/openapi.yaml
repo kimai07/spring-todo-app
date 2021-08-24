@@ -1,0 +1,137 @@
+openapi: 3.0.3
+info:
+  title: Todo-API
+  version: 1.0.0
+  description: 'Todo API'
+paths:
+  /hello:
+    get:
+      operationId: hello
+      summary: |
+        hello
+      description: |
+        hello
+      parameters:
+        - $ref: "#/components/parameters/q_name"
+      responses:
+        '200':
+          description: hello
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HelloResponse"
+  /todo/create:
+    post:
+      operationId: create
+      summary: |
+        create todo
+      description: |
+        create todo
+      parameters:
+        - $ref: "#/components/parameters/q_title_required"
+        - $ref: "#/components/parameters/q_description"
+        - $ref: "#/components/parameters/q_deadline"
+      responses:
+        '201':
+          description: todo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+  /todo/read:
+    get:
+      operationId: read
+      summary: |
+        read todo
+      description: |
+        read todo
+      parameters:
+        - $ref: "#/components/parameters/p_id"
+      responses:
+        '200':
+          description: todo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+  /todo/list:
+    get:
+      operationId: list
+      summary: |
+        list todos
+      description: |
+        list todos
+      responses:
+        '200':
+          description: list todos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todos"
+components:
+  parameters:
+    q_name:
+      name: name
+      in: query
+      description: 名前
+      required: false
+      schema:
+        type: string
+    p_id:
+      name: id
+      in: path
+      description: ID
+      required: true
+      schema:
+        type: long
+        example: 12
+    q_title_required:
+      name: title
+      in: query
+      description: タイトル
+      required: true
+      schema:
+        type: string
+      example: "ショッピング"
+    q_description:
+      name: description
+      in: query
+      description: 説明
+      schema:
+        type: string
+      example: "PCを買う"
+    q_deadline:
+      name: deadline
+      in: query
+      description: 終了期限
+      schema:
+        type: string
+        formate : date
+      example: "2021-08-31"
+  schemas:
+    HelloResponse:
+      title: HelloResponse
+      type: string
+      example: hello
+    Todos:
+        type: "array"
+        items:
+            $ref: "#/components/schemas/Todo"
+    Todo:
+      type: "object"
+      properties:
+        id:
+          type: long
+          example: 1
+        title:
+          type: string
+          example: "買い物"
+        description:
+          type: string
+          example: "PCを買う"
+        deadline:
+          type: string
+          example: "2021-12-31"
+        done:
+          type: boolean
+          example: false
