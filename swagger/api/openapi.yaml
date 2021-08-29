@@ -4,22 +4,6 @@ info:
   version: 1.0.0
   description: 'Todo API'
 paths:
-  /hello:
-    get:
-      operationId: hello
-      summary: |
-        hello
-      description: |
-        hello
-      parameters:
-        - $ref: "#/components/parameters/q_name"
-      responses:
-        '200':
-          description: hello
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HelloResponse"
   /todo/create:
     post:
       operationId: create
@@ -151,10 +135,6 @@ components:
       schema:
         type: boolean
   schemas:
-    HelloResponse:
-      title: HelloResponse
-      type: string
-      example: hello
     Todos:
         type: "array"
         items:
