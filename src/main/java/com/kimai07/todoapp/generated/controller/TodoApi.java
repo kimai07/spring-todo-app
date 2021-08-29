@@ -50,7 +50,7 @@ public interface TodoApi {
     }
 
     @ApiOperation(value = "create todo ", nickname = "create", notes = "create todo ", response = Todo.class, tags = {})
-    @ApiResponses(value = { @ApiResponse(code = 201, message = "todo", response = Todo.class) })
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "created todo", response = Todo.class) })
     @RequestMapping(value = "/todo/create", produces = { "application/json" }, method = RequestMethod.POST)
     default ResponseEntity<Todo> create(
             @NotNull @ApiParam(value = "タイトル", required = true) @Valid @RequestParam(value = "title", required = true) String title,
@@ -67,6 +67,18 @@ public interface TodoApi {
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
+        } else {
+            log.warn(
+                    "ObjectMapper or HttpServletRequest not configured in default TodoApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    @ApiOperation(value = "delete todo ", nickname = "delete", notes = "delete todo ", tags = {})
+    @ApiResponses(value = {})
+    @RequestMapping(value = "/todo/delete", method = RequestMethod.DELETE)
+    default ResponseEntity<Void> delete(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id) {
+        if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn(
                     "ObjectMapper or HttpServletRequest not configured in default TodoApi interface so no example is generated");
@@ -100,6 +112,32 @@ public interface TodoApi {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "todo", response = Todo.class) })
     @RequestMapping(value = "/todo/read", produces = { "application/json" }, method = RequestMethod.GET)
     default ResponseEntity<Todo> read(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id) {
+        if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue(
+                            "{\n  \"description\" : \"PCを買う\",\n  \"id\" : 1,\n  \"title\" : \"買い物\",\n  \"deadline\" : \"2021-12-31\",\n  \"done\" : false\n}",
+                            Todo.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn(
+                    "ObjectMapper or HttpServletRequest not configured in default TodoApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    @ApiOperation(value = "update todo ", nickname = "update", notes = "update todo ", response = Todo.class, tags = {})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "todo", response = Todo.class) })
+    @RequestMapping(value = "/todo/update", produces = { "application/json" }, method = RequestMethod.PUT)
+    default ResponseEntity<Todo> update(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id,
+            @ApiParam(value = "タイトル") @Valid @RequestParam(value = "title", required = false) String title,
+            @ApiParam(value = "説明") @Valid @RequestParam(value = "description", required = false) String description,
+            @ApiParam(value = "終了期限") @Valid @RequestParam(value = "deadline", required = false) String deadline,
+            @ApiParam(value = "完了済みかどうか") @Valid @RequestParam(value = "done", required = false) Boolean done) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
