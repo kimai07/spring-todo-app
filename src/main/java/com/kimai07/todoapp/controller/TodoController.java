@@ -31,7 +31,7 @@ public class TodoController implements TodoApi {
     }
 
     @Override
-    @RequestMapping(value = "/todo", method = RequestMethod.POST)
+    @RequestMapping(value = "/todo", produces = "application/json", method = RequestMethod.POST)
     public ResponseEntity<Todo> create(
             @NotNull @ApiParam(value = "タイトル", required = true) @Valid @RequestParam(value = "title", required = true) String title,
             @ApiParam(value = "説明") @Valid @RequestParam(value = "description", required = false) String description,
@@ -47,12 +47,40 @@ public class TodoController implements TodoApi {
         return new ResponseEntity<>(todo, HttpStatus.CREATED);
     }
 
-    // @Trace
+    @Override
+    @RequestMapping(value = "/todo/{id}", produces = "application/json", method = RequestMethod.PUT)
+    public ResponseEntity<Todo> update(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id,
+            @ApiParam(value = "タイトル") @Valid @RequestParam(value = "title", required = false) String title,
+            @ApiParam(value = "説明") @Valid @RequestParam(value = "description", required = false) String description,
+            @ApiParam(value = "終了期限") @Valid @RequestParam(value = "deadline", required = false) String deadline,
+            @ApiParam(value = "完了済みかどうか", defaultValue = "false") @Valid @RequestParam(value = "done", required = false) Boolean done) {
+        Todo todo;
+        try {
+            todo = todoService.update(id, title, description, deadline, done);
+            if (Objects.isNull(todo)) {
+                new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (ParseException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(todo, HttpStatus.OK);
+    }
+
+    @Override
+    @RequestMapping(value = "/todo/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id) {
+        boolean ret = todoService.deleteById(id);
+        if (!ret) {
+            new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @Override
     @RequestMapping(value = "/todo/{id}", method = RequestMethod.GET)
     public ResponseEntity<Todo> read(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id) {
         TodoEntity todoEntity = todoService.findById(id);
-        System.out.println(todoEntity);
         if (Objects.isNull((todoEntity))) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }

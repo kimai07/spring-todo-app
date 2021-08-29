@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TodoService {
@@ -30,6 +31,46 @@ public class TodoService {
 
         return new Todo().id(todoEntity.getId()).title(todoEntity.getTitle()).description(todoEntity.getDescription())
                 .deadline(todoEntity.getDeadline()).done(todoEntity.isDone());
+    }
+
+    @Transactional
+    public Todo update(Long id, String title, String description, String deadline, Boolean done) throws ParseException {
+        TodoEntity todoEntity = todoMapper.findById(id);
+        if (Objects.isNull(todoEntity)) {
+            return null;
+        }
+
+        if (Objects.nonNull(title)) {
+            todoEntity.setTitle(title);
+        }
+        if (Objects.nonNull(description)) {
+            todoEntity.setDescription(description);
+        }
+        if (Objects.nonNull(deadline)) {
+            todoEntity.setDeadline(deadline);
+        }
+        if (Objects.nonNull(done)) {
+            todoEntity.setDone(done);
+        }
+
+        boolean ret = todoMapper.update(todoEntity);
+        if (!ret) {
+            return null;
+        }
+
+        return new Todo().id(todoEntity.getId()).title(todoEntity.getTitle()).description(todoEntity.getDescription())
+                .deadline(todoEntity.getDeadline()).done(todoEntity.isDone());
+    }
+
+    @Transactional
+    public boolean deleteById(Long id) {
+        TodoEntity todoEntity = todoMapper.findById(id);
+        if (Objects.isNull((todoEntity))) {
+            return false;
+        }
+        todoMapper.deleteById(id);
+
+        return true;
     }
 
     @Transactional(readOnly = true)
