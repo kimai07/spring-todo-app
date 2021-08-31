@@ -20,19 +20,12 @@ public class TodoappApplication {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.OAS_30)
-          .select()
-          .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-          .paths(PathSelectors.any())
-          .build()
-          .apiInfo(apiInfo());
+        return new Docket(DocumentationType.OAS_30).select()
+                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class)).paths(PathSelectors.any())
+                .build().apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-          .title("Todo-API")
-          .description("Todo API")
-          .version("1.0.0")
-          .build();
+        return new ApiInfoBuilder().title("Todo-API").description("Todo API").version("1.0.0").build();
     }
 }
