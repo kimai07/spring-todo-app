@@ -11,10 +11,13 @@ paths:
         create todo
       description: |
         create todo
-      parameters:
-        - $ref: "#/components/parameters/q_title_required"
-        - $ref: "#/components/parameters/q_description"
-        - $ref: "#/components/parameters/q_deadline"
+      requestBody:
+        description: create todo body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTodoBody"
       responses:
         '201':
           description: created todo
@@ -31,10 +34,13 @@ paths:
         update todo
       parameters:
         - $ref: "#/components/parameters/p_id"
-        - $ref: "#/components/parameters/q_title"
-        - $ref: "#/components/parameters/q_description"
-        - $ref: "#/components/parameters/q_deadline"
-        - $ref: "#/components/parameters/q_done"
+      requestBody:
+        description: update todo body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTodoBody"
       responses:
         '200':
           description: todo
@@ -135,6 +141,43 @@ components:
       schema:
         type: boolean
   schemas:
+    CreateTodoBody:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          description: タイトル
+          example: "ショッピング"
+        description:
+          type: string
+          description: 説明
+          example: "PCを買う"
+        deadline:
+          type: string
+          formate : date
+          description: 終了期限
+          example: "2021-08-31"
+    UpdateTodoBody:
+      type: object
+      properties:
+        title:
+          type: string
+          description: タイトル
+          example: "ショッピング"
+        description:
+          type: string
+          description: 説明
+          example: "PCを買う"
+        deadline:
+          type: string
+          formate : date
+          description: 終了期限
+          example: "2021-08-31"
+        done:
+          type: boolean
+          description: 完了済みかどうか
     Todos:
         type: "array"
         items:
