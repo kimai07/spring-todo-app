@@ -5,8 +5,10 @@
  */
 package com.kimai07.todoapp.generated.controller;
 
+import com.kimai07.todoapp.generated.model.CreateTodoBody;
 import com.kimai07.todoapp.generated.model.Todo;
 import com.kimai07.todoapp.generated.model.Todos;
+import com.kimai07.todoapp.generated.model.UpdateTodoBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -51,11 +53,10 @@ public interface TodoApi {
 
     @ApiOperation(value = "create todo ", nickname = "create", notes = "create todo ", response = Todo.class, tags = {})
     @ApiResponses(value = { @ApiResponse(code = 201, message = "created todo", response = Todo.class) })
-    @RequestMapping(value = "/todo/create", produces = { "application/json" }, method = RequestMethod.POST)
+    @RequestMapping(value = "/todo/create", produces = { "application/json" }, consumes = {
+            "application/json" }, method = RequestMethod.POST)
     default ResponseEntity<Todo> create(
-            @NotNull @ApiParam(value = "タイトル", required = true) @Valid @RequestParam(value = "title", required = true) String title,
-            @ApiParam(value = "説明") @Valid @RequestParam(value = "description", required = false) String description,
-            @ApiParam(value = "終了期限") @Valid @RequestParam(value = "deadline", required = false) String deadline) {
+            @ApiParam(value = "create todo body", required = true) @Valid @RequestBody CreateTodoBody body) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -132,12 +133,10 @@ public interface TodoApi {
 
     @ApiOperation(value = "update todo ", nickname = "update", notes = "update todo ", response = Todo.class, tags = {})
     @ApiResponses(value = { @ApiResponse(code = 200, message = "todo", response = Todo.class) })
-    @RequestMapping(value = "/todo/update", produces = { "application/json" }, method = RequestMethod.PUT)
+    @RequestMapping(value = "/todo/update", produces = { "application/json" }, consumes = {
+            "application/json" }, method = RequestMethod.PUT)
     default ResponseEntity<Todo> update(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id,
-            @ApiParam(value = "タイトル") @Valid @RequestParam(value = "title", required = false) String title,
-            @ApiParam(value = "説明") @Valid @RequestParam(value = "description", required = false) String description,
-            @ApiParam(value = "終了期限") @Valid @RequestParam(value = "deadline", required = false) String deadline,
-            @ApiParam(value = "完了済みかどうか") @Valid @RequestParam(value = "done", required = false) Boolean done) {
+            @ApiParam(value = "update todo body", required = true) @Valid @RequestBody UpdateTodoBody body) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
