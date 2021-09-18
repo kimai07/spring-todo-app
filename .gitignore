@@ -1,4 +1,5 @@
-/swagger/generated-src/
+# OpenAPI
+/openapi/generated-src/
 
 # Compiled class file
 *.class

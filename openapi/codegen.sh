@@ -10,16 +10,17 @@ rm -f ${GENERATED_DESTINATION}/controller/*.java
 rm -f ${GENERATED_DESTINATION}/model/*.java
 rm -rf generated-src
 
-java -Dline.separator=$'\n' -jar ./swagger-codegen-cli-3.0.21.jar generate  \
+java -Dline.separator=$'\n' -jar ./openapi-generator-cli-5.2.1.jar generate  \
   -i api/openapi.yaml \
-  -c ./swagger.config \
+  -c ./openapi.config \
+  --generator-name spring \
   --api-package com.kimai07.$PROJECT.generated.controller \
   --model-package com.kimai07.$PROJECT.generated.model \
   --group-id com.kimai07.$PROJECT \
   --artifact-id $ARTIFACT \
   --artifact-version 0.0.1-SNAPSHOT \
-  -l spring \
-  -o generated-src
+  -o generated-src \
+  --skip-validate-spec
 
 if [ $? -ne 0 ]; then
     echo "Oops..."
