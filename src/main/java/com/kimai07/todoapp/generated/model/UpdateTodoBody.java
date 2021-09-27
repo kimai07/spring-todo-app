@@ -5,30 +5,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDate;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * UpdateTodoBody
  */
-@Validated
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class UpdateTodoBody implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("title")
-    private String title = null;
+    private String title;
 
     @JsonProperty("description")
-    private String description = null;
+    private String description;
 
     @JsonProperty("deadline")
-    private String deadline = null;
+    private LocalDate deadline = null;
 
     @JsonProperty("done")
-    private Boolean done = null;
+    private Boolean done;
 
     public UpdateTodoBody title(String title) {
         this.title = title;
@@ -39,7 +38,7 @@ public class UpdateTodoBody implements Serializable {
      * タイトル
      * 
      * @return title
-     **/
+     */
     @ApiModelProperty(example = "ショッピング", value = "タイトル")
 
     public String getTitle() {
@@ -59,7 +58,7 @@ public class UpdateTodoBody implements Serializable {
      * 説明
      * 
      * @return description
-     **/
+     */
     @ApiModelProperty(example = "PCを買う", value = "説明")
 
     public String getDescription() {
@@ -70,7 +69,7 @@ public class UpdateTodoBody implements Serializable {
         this.description = description;
     }
 
-    public UpdateTodoBody deadline(String deadline) {
+    public UpdateTodoBody deadline(LocalDate deadline) {
         this.deadline = deadline;
         return this;
     }
@@ -79,14 +78,16 @@ public class UpdateTodoBody implements Serializable {
      * 終了期限
      * 
      * @return deadline
-     **/
+     */
     @ApiModelProperty(example = "2021-08-31", value = "終了期限")
 
-    public String getDeadline() {
+    @Valid
+
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
@@ -99,10 +100,10 @@ public class UpdateTodoBody implements Serializable {
      * 完了済みかどうか
      * 
      * @return done
-     **/
+     */
     @ApiModelProperty(value = "完了済みかどうか")
 
-    public Boolean isDone() {
+    public Boolean getDone() {
         return done;
     }
 
@@ -111,7 +112,7 @@ public class UpdateTodoBody implements Serializable {
     }
 
     @Override
-    public boolean equals(java.lang.Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -146,7 +147,7 @@ public class UpdateTodoBody implements Serializable {
     /**
      * Convert the given object to string with each line indented by 4 spaces (except the first line).
      */
-    private String toIndentedString(java.lang.Object o) {
+    private String toIndentedString(Object o) {
         if (o == null) {
             return "null";
         }

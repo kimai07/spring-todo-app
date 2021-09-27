@@ -5,27 +5,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDate;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * CreateTodoBody
  */
-@Validated
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CreateTodoBody implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("title")
-    private String title = null;
+    private String title;
 
     @JsonProperty("description")
-    private String description = null;
+    private String description;
 
     @JsonProperty("deadline")
-    private String deadline = null;
+    private LocalDate deadline = null;
 
     public CreateTodoBody title(String title) {
         this.title = title;
@@ -36,7 +35,7 @@ public class CreateTodoBody implements Serializable {
      * タイトル
      * 
      * @return title
-     **/
+     */
     @ApiModelProperty(example = "ショッピング", required = true, value = "タイトル")
     @NotNull
 
@@ -57,7 +56,7 @@ public class CreateTodoBody implements Serializable {
      * 説明
      * 
      * @return description
-     **/
+     */
     @ApiModelProperty(example = "PCを買う", value = "説明")
 
     public String getDescription() {
@@ -68,7 +67,7 @@ public class CreateTodoBody implements Serializable {
         this.description = description;
     }
 
-    public CreateTodoBody deadline(String deadline) {
+    public CreateTodoBody deadline(LocalDate deadline) {
         this.deadline = deadline;
         return this;
     }
@@ -77,19 +76,21 @@ public class CreateTodoBody implements Serializable {
      * 終了期限
      * 
      * @return deadline
-     **/
+     */
     @ApiModelProperty(example = "2021-08-31", value = "終了期限")
 
-    public String getDeadline() {
+    @Valid
+
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
     @Override
-    public boolean equals(java.lang.Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -122,7 +123,7 @@ public class CreateTodoBody implements Serializable {
     /**
      * Convert the given object to string with each line indented by 4 spaces (except the first line).
      */
-    private String toIndentedString(java.lang.Object o) {
+    private String toIndentedString(Object o) {
         if (o == null) {
             return "null";
         }

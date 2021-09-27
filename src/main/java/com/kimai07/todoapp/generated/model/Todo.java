@@ -5,33 +5,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDate;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Todo
  */
-@Validated
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Todo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("id")
-    private Long id = null;
+    private Long id;
 
     @JsonProperty("title")
-    private String title = null;
+    private String title;
 
     @JsonProperty("description")
-    private String description = null;
+    private String description;
 
     @JsonProperty("deadline")
-    private String deadline = null;
+    private LocalDate deadline = null;
 
     @JsonProperty("done")
-    private Boolean done = null;
+    private Boolean done;
 
     public Todo id(Long id) {
         this.id = id;
@@ -42,7 +41,7 @@ public class Todo implements Serializable {
      * Get id
      * 
      * @return id
-     **/
+     */
     @ApiModelProperty(example = "1", value = "")
 
     public Long getId() {
@@ -62,7 +61,7 @@ public class Todo implements Serializable {
      * Get title
      * 
      * @return title
-     **/
+     */
     @ApiModelProperty(example = "買い物", value = "")
 
     public String getTitle() {
@@ -82,7 +81,7 @@ public class Todo implements Serializable {
      * Get description
      * 
      * @return description
-     **/
+     */
     @ApiModelProperty(example = "PCを買う", value = "")
 
     public String getDescription() {
@@ -93,7 +92,7 @@ public class Todo implements Serializable {
         this.description = description;
     }
 
-    public Todo deadline(String deadline) {
+    public Todo deadline(LocalDate deadline) {
         this.deadline = deadline;
         return this;
     }
@@ -102,14 +101,16 @@ public class Todo implements Serializable {
      * Get deadline
      * 
      * @return deadline
-     **/
+     */
     @ApiModelProperty(example = "2021-12-31", value = "")
 
-    public String getDeadline() {
+    @Valid
+
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
@@ -122,10 +123,10 @@ public class Todo implements Serializable {
      * Get done
      * 
      * @return done
-     **/
+     */
     @ApiModelProperty(example = "false", value = "")
 
-    public Boolean isDone() {
+    public Boolean getDone() {
         return done;
     }
 
@@ -134,7 +135,7 @@ public class Todo implements Serializable {
     }
 
     @Override
-    public boolean equals(java.lang.Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -169,7 +170,7 @@ public class Todo implements Serializable {
     /**
      * Convert the given object to string with each line indented by 4 spaces (except the first line).
      */
-    private String toIndentedString(java.lang.Object o) {
+    private String toIndentedString(Object o) {
         if (o == null) {
             return "null";
         }
