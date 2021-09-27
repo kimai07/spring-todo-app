@@ -4,7 +4,6 @@ import com.kimai07.todoapp.entity.TodoEntity;
 import com.kimai07.todoapp.generated.controller.TodoApi;
 import com.kimai07.todoapp.generated.model.CreateTodoBody;
 import com.kimai07.todoapp.generated.model.Todo;
-import com.kimai07.todoapp.generated.model.Todos;
 import com.kimai07.todoapp.generated.model.UpdateTodoBody;
 import com.kimai07.todoapp.service.TodoService;
 import io.swagger.annotations.ApiParam;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,7 +52,7 @@ public class TodoController implements TodoApi {
             @ApiParam(value = "update todo body", required = true) @Valid @RequestBody UpdateTodoBody body) {
         Todo todo;
         try {
-            todo = todoService.update(id, body.getTitle(), body.getDescription(), body.getDeadline(), body.isDone());
+            todo = todoService.update(id, body.getTitle(), body.getDescription(), body.getDeadline(), body.getDone());
             if (Objects.isNull(todo)) {
                 new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
@@ -87,9 +87,9 @@ public class TodoController implements TodoApi {
 
     @Override
     @RequestMapping(value = "/todos", method = RequestMethod.GET)
-    public ResponseEntity<Todos> list() {
+    public ResponseEntity<List<Todo>> list() {
         List<TodoEntity> todoEntities = todoService.findAll();
-        Todos todos = new Todos();
+        List<Todo> todos = new ArrayList<>();
         for (TodoEntity todoEntity : todoEntities) {
             Todo todo = new Todo().id(todoEntity.getId()).title(todoEntity.getTitle())
                     .description(todoEntity.getDescription()).deadline(todoEntity.getDeadline())

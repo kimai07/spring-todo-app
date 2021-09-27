@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +21,7 @@ public class TodoService {
     }
 
     @Transactional
-    public Todo create(String title, String description, String deadline) throws ParseException {
+    public Todo create(String title, String description, LocalDate deadline) throws ParseException {
         TodoEntity todoEntity = new TodoEntity();
         todoEntity.setTitle(title);
         todoEntity.setDescription(description);
@@ -34,7 +35,8 @@ public class TodoService {
     }
 
     @Transactional
-    public Todo update(Long id, String title, String description, String deadline, Boolean done) throws ParseException {
+    public Todo update(Long id, String title, String description, LocalDate deadline, Boolean done)
+            throws ParseException {
         TodoEntity todoEntity = todoMapper.findById(id);
         if (Objects.isNull(todoEntity)) {
             return null;

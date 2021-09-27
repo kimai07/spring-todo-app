@@ -2,6 +2,8 @@ package com.kimai07.todoapp.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.kimai07.todoapp.entity.TodoEntity;
 import com.kimai07.todoapp.generated.model.Todo;
 import com.kimai07.todoapp.service.TodoService;
@@ -13,6 +15,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -36,12 +41,17 @@ public class TodoControllerTest {
     @Test
     public void createTest() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
+        JavaTimeModule jtm = new JavaTimeModule();
+        jtm.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_DATE));
+        mapper.registerModule(jtm);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-        Todo todo = new Todo().title("aaa").description("bbb").deadline("2021-09-30");
+        LocalDate deadline = LocalDate.of(2021, 9, 30);
+
+        Todo todo = new Todo().title("aaa").description("bbb").deadline(deadline);
         String todoJson = mapper.writeValueAsString(todo);
 
-        Todo expectedTodo = new Todo().id(1L).title("aaa").description("bbb").deadline("2021-09-30").done(false);
+        Todo expectedTodo = new Todo().id(1L).title("aaa").description("bbb").deadline(deadline).done(false);
         String expectedTodoJson = mapper.writeValueAsString(expectedTodo);
 
         when(todoService.create(any(), any(), any())).thenReturn(expectedTodo);
@@ -54,16 +64,21 @@ public class TodoControllerTest {
     @Test
     public void readTest() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
+        JavaTimeModule jtm = new JavaTimeModule();
+        jtm.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_DATE));
+        mapper.registerModule(jtm);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        LocalDate deadline = LocalDate.of(2021, 9, 30);
 
         TodoEntity entity = new TodoEntity();
         entity.setId(1L);
         entity.setTitle("aaa");
         entity.setDescription("bbb");
-        entity.setDeadline("2021-09-30");
+        entity.setDeadline(deadline);
         entity.isDone();
 
-        Todo expectedTodo = new Todo().id(1L).title("aaa").description("bbb").deadline("2021-09-30").done(false);
+        Todo expectedTodo = new Todo().id(1L).title("aaa").description("bbb").deadline(deadline).done(false);
         String expectedTodoJson = mapper.writeValueAsString(expectedTodo);
 
         when(todoService.findById(anyLong())).thenReturn(entity);

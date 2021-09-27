@@ -23,6 +23,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "todo", description = "the todo API")
@@ -33,24 +34,21 @@ public interface TodoApi {
     }
 
     /**
-     * POST /todo/create : create todo 
-     * create todo 
+     * POST /todo/create : create todo create todo
      *
-     * @param createTodoBody create todo body (required)
+     * @param createTodoBody
+     *            create todo body (required)
+     * 
      * @return created todo (status code 201)
      */
-    @ApiOperation(value = "create todo ", nickname = "create", notes = "create todo ", response = Todo.class, tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "created todo", response = Todo.class) })
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/todo/create",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<Todo> create(@ApiParam(value = "create todo body" ,required=true )  @Valid @RequestBody CreateTodoBody createTodoBody) {
+    @ApiOperation(value = "create todo ", nickname = "create", notes = "create todo ", response = Todo.class, tags = {})
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "created todo", response = Todo.class) })
+    @RequestMapping(method = RequestMethod.POST, value = "/todo/create", produces = { "application/json" }, consumes = {
+            "application/json" })
+    default ResponseEntity<Todo> create(
+            @ApiParam(value = "create todo body", required = true) @Valid @RequestBody CreateTodoBody createTodoBody) {
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"description\" : \"PCを買う\", \"id\" : 1, \"title\" : \"買い物\", \"deadline\" : \"2021-12-31\", \"done\" : false }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
@@ -62,43 +60,34 @@ public interface TodoApi {
 
     }
 
-
     /**
-     * DELETE /todo/delete : delete todo 
-     * delete todo 
+     * DELETE /todo/delete : delete todo delete todo
      *
-     * @param id ID (required)
-     * @return 
+     * @param id
+     *            ID (required)
+     * 
+     * @return delete todo (status code 200)
      */
-    @ApiOperation(value = "delete todo ", nickname = "delete", notes = "delete todo ", tags={  })
-    @ApiResponses(value = {  })
-    @RequestMapping(
-        method = RequestMethod.DELETE,
-        value = "/todo/delete"
-    )
-    default ResponseEntity<Void> delete(@ApiParam(value = "ID",required=true) @PathVariable("id") Long id) {
+    @ApiOperation(value = "delete todo ", nickname = "delete", notes = "delete todo ", tags = {})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "delete todo") })
+    @RequestMapping(method = RequestMethod.DELETE, value = "/todo/delete")
+    default ResponseEntity<Void> delete(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
-
     /**
-     * GET /todo/list : list todos 
-     * list todos 
+     * GET /todo/list : list todos list todos
      *
      * @return list todos (status code 200)
      */
-    @ApiOperation(value = "list todos ", nickname = "list", notes = "list todos ", response = Todo.class, responseContainer = "List", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "list todos", response = Todo.class, responseContainer = "List") })
-    @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/todo/list",
-        produces = { "application/json" }
-    )
+    @ApiOperation(value = "list todos ", nickname = "list", notes = "list todos ", response = Todo.class, responseContainer = "List", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "list todos", response = Todo.class, responseContainer = "List") })
+    @RequestMapping(method = RequestMethod.GET, value = "/todo/list", produces = { "application/json" })
     default ResponseEntity<List<Todo>> list() {
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"description\" : \"PCを買う\", \"id\" : 1, \"title\" : \"買い物\", \"deadline\" : \"2021-12-31\", \"done\" : false }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
@@ -110,25 +99,20 @@ public interface TodoApi {
 
     }
 
-
     /**
-     * GET /todo/read : read todo 
-     * read todo 
+     * GET /todo/read : read todo read todo
      *
-     * @param id ID (required)
+     * @param id
+     *            ID (required)
+     * 
      * @return todo (status code 200)
      */
-    @ApiOperation(value = "read todo ", nickname = "read", notes = "read todo ", response = Todo.class, tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "todo", response = Todo.class) })
-    @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/todo/read",
-        produces = { "application/json" }
-    )
-    default ResponseEntity<Todo> read(@ApiParam(value = "ID",required=true) @PathVariable("id") Long id) {
+    @ApiOperation(value = "read todo ", nickname = "read", notes = "read todo ", response = Todo.class, tags = {})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "todo", response = Todo.class) })
+    @RequestMapping(method = RequestMethod.GET, value = "/todo/read", produces = { "application/json" })
+    default ResponseEntity<Todo> read(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id) {
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"description\" : \"PCを買う\", \"id\" : 1, \"title\" : \"買い物\", \"deadline\" : \"2021-12-31\", \"done\" : false }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
@@ -140,27 +124,24 @@ public interface TodoApi {
 
     }
 
-
     /**
-     * PUT /todo/update : update todo 
-     * update todo 
+     * PUT /todo/update : update todo update todo
      *
-     * @param id ID (required)
-     * @param updateTodoBody update todo body (required)
+     * @param id
+     *            ID (required)
+     * @param updateTodoBody
+     *            update todo body (required)
+     * 
      * @return todo (status code 200)
      */
-    @ApiOperation(value = "update todo ", nickname = "update", notes = "update todo ", response = Todo.class, tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "todo", response = Todo.class) })
-    @RequestMapping(
-        method = RequestMethod.PUT,
-        value = "/todo/update",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<Todo> update(@ApiParam(value = "ID",required=true) @PathVariable("id") Long id,@ApiParam(value = "update todo body" ,required=true )  @Valid @RequestBody UpdateTodoBody updateTodoBody) {
+    @ApiOperation(value = "update todo ", nickname = "update", notes = "update todo ", response = Todo.class, tags = {})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "todo", response = Todo.class) })
+    @RequestMapping(method = RequestMethod.PUT, value = "/todo/update", produces = { "application/json" }, consumes = {
+            "application/json" })
+    default ResponseEntity<Todo> update(@ApiParam(value = "ID", required = true) @PathVariable("id") Long id,
+            @ApiParam(value = "update todo body", required = true) @Valid @RequestBody UpdateTodoBody updateTodoBody) {
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"description\" : \"PCを買う\", \"id\" : 1, \"title\" : \"買い物\", \"deadline\" : \"2021-12-31\", \"done\" : false }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
