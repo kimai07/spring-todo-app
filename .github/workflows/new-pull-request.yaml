@@ -1,0 +1,41 @@
+name: new-pull-request
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+        git fetch origin main
+      - name: Git config
+        run: |
+          git config --local user.email "imakenfever@gmail.com"
+          git config --local user.name "actions"
+      - name: Create local changes
+        run: |
+          CURRENT_VERSION=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
+          echo "CURRENT_VERSION = $CURRENT_VERSION"
+          NEXT_VERSION=$(echo $CURRENT_VERSION | perl -ne 'if ($_ =~ /^(\d+)\.(\d+)\.(\d+)$/) { $v = $3; $v++; print "$1.$2.$v\n" } else { print "Invalid tag format."; exit 1 }')
+          echo "NEXT_VERSION = $NEXT_VERSION"
+          echo "::set-env name=NEXT_VERSION::$(echo $NEXT_VERSION)"
+
+      - name: Empty commit
+        run: |
+          git checkout main
+          git commit --allow-empty -m "Empty commit for $NEXT_VERSION"
+
+      - name: Create a pull request with a new release branch
+        id: create_pull_request
+        uses: peter-evans/create-pull-request@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release/${{ env.NEXT_VERSION }}
+          base: main
+          title: "Release ${{ env.NEXT_VERSION }}"
+          body: |
+            ## Pull-requests in this release
