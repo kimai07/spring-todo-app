@@ -30,7 +30,7 @@ jobs:
           git commit --allow-empty -m "Empty commit for $NEXT_VERSION"
 
       - name: Create a pull request with a new release branch
-        id: create_pull_request
+        id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
