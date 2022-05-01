@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: |
           git fetch origin main
       - name: Git config
@@ -42,7 +42,7 @@ jobs:
             ## Pull-requests in this release
 
       - name: Post to slack when success
-        uses: 8398a7/action-slack@v2
+        uses: 8398a7/action-slack@v3
         with:
           status: custom
           payload: |
