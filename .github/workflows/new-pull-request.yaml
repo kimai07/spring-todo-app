@@ -41,7 +41,7 @@ jobs:
           body: |
             ## Pull-requests in this release
 
-      - name: Post to slack when success
+      - name: Post to slack
         uses: 8398a7/action-slack@v3
         with:
           status: custom
@@ -59,6 +59,7 @@ jobs:
                 ]
               }]
             }
+        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
