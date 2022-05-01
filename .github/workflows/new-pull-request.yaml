@@ -46,7 +46,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: custom
-          payload: |
+          custom_payload: |
             {
               text: "`release/${{ env.NEXT_VERSION }}` was created. This is a release branch for next release.",
               attachments: [{
@@ -63,13 +63,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
       - name: Slack Notification on failure
         if: failure()
         uses: 8398a7/action-slack@v3
         with:
           status: custom
-          payload: |
+          custom_payload: |
             {
               "text": "Failed to create `release/${{ env.NEXT_VERSION }}` branch. Maybe the branch already exists.",
               "attachments": [{
