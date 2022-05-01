@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-        git fetch origin main
+          git fetch origin main
       - name: Git config
         run: |
           git config --local user.email "imakenfever@gmail.com"
