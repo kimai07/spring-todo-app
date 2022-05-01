@@ -22,7 +22,7 @@ jobs:
           echo "CURRENT_VERSION = $CURRENT_VERSION"
           NEXT_VERSION=$(echo $CURRENT_VERSION | perl -ne 'if ($_ =~ /^v(\d+)\.(\d+)\.(\d+)$/) { $v = $3; $v++; print "v$1.$2.$v\n" } else { print "Invalid tag format."; exit 1 }')
           echo "NEXT_VERSION = $NEXT_VERSION"
-          echo "::set-env name=NEXT_VERSION::$(echo $NEXT_VERSION)"
+          echo "NEXT_VERSION=$(echo $NEXT_VERSION)" >> $GITHUB_ENV
 
       - name: Empty commit
         run: |
