@@ -20,7 +20,7 @@ jobs:
         run: |
           CURRENT_VERSION=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
           echo "CURRENT_VERSION = $CURRENT_VERSION"
-          NEXT_VERSION=$(echo $CURRENT_VERSION | perl -ne 'if ($_ =~ /^(\d+)\.(\d+)\.(\d+)$/) { $v = $3; $v++; print "$1.$2.$v\n" } else { print "Invalid tag format."; exit 1 }')
+          NEXT_VERSION=$(echo $CURRENT_VERSION | perl -ne 'if ($_ =~ /^v(\d+)\.(\d+)\.(\d+)$/) { $v = $3; $v++; print "v$1.$2.$v\n" } else { print "Invalid tag format."; exit 1 }')
           echo "NEXT_VERSION = $NEXT_VERSION"
           echo "::set-env name=NEXT_VERSION::$(echo $NEXT_VERSION)"
 
@@ -39,3 +39,26 @@ jobs:
           title: "Release ${{ env.NEXT_VERSION }}"
           body: |
             ## Pull-requests in this release
+
+      - name: Post to slack when success
+        uses: 8398a7/action-slack@v2
+        with:
+          status: custom
+          payload: |
+            {
+              text: "`release/${{ env.NEXT_VERSION }}` was created. This is a release branch for next release.",
+              attachments: [{
+                "color": "good",
+                "fields": [
+                  {
+                    title: "Pull Request",
+                    value: "https://github.com/${{ github.repository }}/pull/${{ steps.create_pull_request.outputs.pr_number }}",
+                    short: false
+                  }
+                ]
+              }]
+            }
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
